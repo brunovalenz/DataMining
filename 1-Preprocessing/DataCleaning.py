@@ -41,8 +41,8 @@ def main():
     for c in columns_missing_value:
         UpdateMissingValues(df, c)
     
-    #cat_columns = df.select_dtypes(['object']).columns
-    #df[cat_columns] = df[cat_columns].apply(lambda x: pd.factorize(x)[0])
+    cat_columns = df.select_dtypes(['object']).columns
+    df[cat_columns] = df[cat_columns].apply(lambda x: pd.factorize(x)[0])
 
     print(df.describe())
     print("\n")
