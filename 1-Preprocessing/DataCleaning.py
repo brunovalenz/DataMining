@@ -4,7 +4,7 @@ import numpy as np
 def main():
     # Faz a leitura do arquivo
     names = ['ID','N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage'] 
-    features = ['Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
+    features = ['N_Days', 'Status', 'Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
     output_file = '0-Datasets/cirrhosis2Clear.csv'
     input_file = '0-Datasets/cirrhosis2.csv'
     df = pd.read_csv(input_file,         # Nome do arquivo com dados
@@ -41,9 +41,12 @@ def main():
     for c in columns_missing_value:
         UpdateMissingValues(df, c)
     
-    #cat_columns = df.select_dtypes(['object']).columns
-    #df[cat_columns] = df[cat_columns].apply(lambda x: pd.factorize(x)[0])
+    cat_columns = df.select_dtypes(['object']).columns
+    df[cat_columns] = df[cat_columns].apply(lambda x: pd.factorize(x)[0])
 
+    print("COLUNAS QUE SERÃO MUDADAS:")
+    print(cat_columns)
+    print("--------------------------------------")
     print(df.describe())
     print("\n")
     print(df.head(15))

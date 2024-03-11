@@ -6,10 +6,10 @@ from sklearn.preprocessing import MinMaxScaler
 
 def main():
     # Faz a leitura do arquivo
-    input_file = '0-Datasets/cirrhosisClear.csv'
-    names = ['ID','N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
-    features = ['N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin']
-    target = 'Stage'
+    input_file = '0-Datasets/cirrhosis2Clear.csv'
+    names = ['N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
+    features = ['N_Days','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
+    target = 'Status'
     df = pd.read_csv(input_file,    # Nome do arquivo com dados
                      names = names) # Nome das colunas                      
     ShowInformationDataFrame(df,"Dataframe original")
