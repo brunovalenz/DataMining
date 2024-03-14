@@ -75,5 +75,5 @@ def UpdateMissingValues(df, column, method="mode", number=0):
         df[column].fillna(mode, inplace=True)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  
     main()
