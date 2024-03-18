@@ -11,7 +11,7 @@ def main():
                      sep = ";",
                      names = names,      # Nome das colunas 
                      usecols = features, # Define as colunas que serão  utilizadas
-                     na_values='?')      # Define que ? será considerado valores ausentes
+                     na_values='NA')      # Define que ? será considerado valores ausentes
     
     df_original = df.copy()
     # Imprime as 15 primeiras linhas do arquivo
