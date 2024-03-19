@@ -14,7 +14,7 @@ dados = pd.read_csv(input_file,         # Nome do arquivo com dados
                      sep = ";",
                      names = names,      # Nome das colunas 
                      usecols = features, # Define as colunas que serão  utilizadas
-                     na_values='?')      # Define que ? será considerado valores ausentes
+                     na_values='NA')      # Define que ? será considerado valores ausentes
 # Vamos supor que você queira criar uma distribuição de frequência para uma coluna específica, por exemplo, 'idade'
 coluna_alvo = 'Edema'
 

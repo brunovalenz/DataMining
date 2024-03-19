@@ -1,5 +1,8 @@
-import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+# Dados de exemplo (substitua isso pelos seus próprios dados)
 
 names = ['N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage'] 
 features = ['N_Days', 'Status', 'Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
@@ -10,14 +13,14 @@ dados = pd.read_csv(input_file,         # Nome do arquivo com dados
                      usecols = features, # Define as colunas que serão  utilizadas
                      na_values='NA')      # Define que NA será considerado valores ausentes
 
-# Plotar o histograma
-choice = 'Age'
-plt.hist(dados[choice], bins=10, color='skyblue', edgecolor='black')
+# Criar o boxplot
+plt.figure(figsize=(8, 6))
+plt.boxplot(dados)
 
 # Adicionar título e rótulos aos eixos
-plt.title('Histograma')
-plt.xlabel('Valores')
-plt.ylabel('Frequência')
+plt.title('Boxplot')
+plt.ylabel('Valores')
 
-# Mostrar o histograma
+# Mostrar o boxplot
+plt.grid(True)
 plt.show()
