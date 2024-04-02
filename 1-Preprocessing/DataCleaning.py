@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 def main():
-    # Faz a leitura do arquivo
+    # Faz a leitura do file
     names = ['ID','N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage'] 
     features = ['N_Days', 'Status', 'Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
     output_file = '0-Datasets/cirrhosis2Clear.csv'
