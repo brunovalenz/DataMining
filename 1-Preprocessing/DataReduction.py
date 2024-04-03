@@ -56,8 +56,8 @@ def VisualizePcaProjection(finalDf, targetColumn):
     ax.set_xlabel('Principal Component 1', fontsize = 15)
     ax.set_ylabel('Principal Component 2', fontsize = 15)
     ax.set_title('2 component PCA', fontsize = 20)
-    targets = [0, 1, ]
-    colors = ['r', 'g']
+    targets = [0, 1, 2]
+    colors = ['r', 'y', 'b']
     for target, color in zip(targets,colors):
         indicesToKeep = finalDf[targetColumn] == target
         ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1'],
