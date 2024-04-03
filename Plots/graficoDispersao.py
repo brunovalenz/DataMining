@@ -13,8 +13,11 @@ dados = pd.read_csv(input_file,         # Nome do arquivo com dados
                      names = names,      # Nome das colunas 
                      usecols = features, # Define as colunas que serão  utilizadas
                      na_values='NA')      # Define que NA será considerado valores ausentes
-x = dados['Age']
-y = dados['Sex']
+dadoX = 'Age'
+dadoY = 'Cholesterol'
+
+x = dados[dadoX]
+y = dados[dadoY]
 
 # Create scatter plot
 plt.scatter(x, y)

@@ -13,7 +13,7 @@ dados = pd.read_csv(input_file,         # Nome do arquivo com dados
 
 # Criar o boxplot
 plt.figure(figsize=(8, 6))
-plt.boxplot(dados['Age'])
+plt.boxplot(dados['Bilirubin'])
 
 # Adicionar título e rótulos aos eixos
 plt.title('Boxplot')
