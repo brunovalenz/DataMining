@@ -1,60 +1,32 @@
-#Implementation of Kmeans from scratch and using sklearn
-#Loading the required modules 
 import numpy as np
-from scipy.spatial.distance import cdist 
-from sklearn.datasets import load_digits
-from sklearn.decomposition import PCA
 from sklearn.mixture import GaussianMixture
-from sklearn.metrics import silhouette_score
-from sklearn.metrics import silhouette_samples
+import pandas as pd
 import matplotlib.pyplot as plt
 
-def show_digitsdataset(digits):
-    fig = plt.figure(figsize=(6, 6))  # figure size in inches
-    fig.subplots_adjust(left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05)
+# Dados normalizados
 
-    for i in range(64):
-        ax = fig.add_subplot(8, 8, i + 1, xticks=[], yticks=[])
-        ax.imshow(digits.images[i], cmap=plt.cm.binary, interpolation='nearest')
-        # label the image with the target value
-        ax.text(0, 7, str(digits.target[i]))
+names = ['N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage'] 
+features = ['N_Days', 'Status', 'Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
+input_file = '0-Datasets/cirrhosis2Clear.csv'
+X = pd.read_csv(input_file,         # Nome do arquivo com dados
+                     sep = ",",
+                     names = names,      # Nome das colunas 
+                     usecols = features, # Define as colunas que serão  utilizadas
+                     na_values='NA')      # Define que NA será considerado valores ausentes
 
-    #fig.show()
+# Criando o modelo GMM
+gmm = GaussianMixture(n_components=3)  # Defina o número de componentes desejado
 
-def plot_samples(projected, labels, title):    
-    fig = plt.figure()
-    u_labels = np.unique(labels)
-    for i in u_labels:
-        plt.scatter(projected[labels == i , 0] , projected[labels == i , 1] , label = i,
-                    edgecolor='none', alpha=0.5, cmap=plt.cm.get_cmap('tab10', 10))
-    plt.xlabel('component 1')
-    plt.ylabel('component 2')
-    plt.legend()
-    plt.title(title)
+# Treinando o modelo
+gmm.fit(X)
 
-def main():
-    #Load dataset Digits
-    digits = load_digits()
-    show_digitsdataset(digits)
-    
-    #Transform the data using PCA
-    pca = PCA(2)
-    projected = pca.fit_transform(digits.data)
-    print(pca.explained_variance_ratio_)
-    print(digits.data.shape)
-    print(projected.shape)    
-    plot_samples(projected, digits.target, 'Original Labels') 
-    
-    #Applying sklearn GMM function
-    gm  = GaussianMixture(n_components=10).fit(projected)
-    print(gm.weights_)
-    print(gm.means_)
-    x = gm.predict(projected)
+# Prevendo as classes dos dados
+labels = gmm.predict(X)
 
-    #Visualize the results sklearn
-    plot_samples(projected, x, 'Clusters Labels GMM')
+# Obtendo as probabilidades de pertencimento a cada classe
+probs = gmm.predict_proba(X)
 
-    plt.show()
-
-if __name__ == "__main__":
-    main()
+# Plotando os resultados
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap='viridis')
+plt.colorbar()
+plt.show()
