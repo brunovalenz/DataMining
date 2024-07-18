@@ -94,65 +94,60 @@ def plot_confusion_matrix(cm, classes,
 
 
 def main():
-
+    # Load your dataset
     names = ['N_Days','Status','Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage'] 
-    features = ['N_Days', 'Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
+    features = ['N_Days', 'Status', 'Drug','Age','Sex','Ascites','Hepatomegaly','Spiders','Edema','Bilirubin','Cholesterol','Albumin','Copper','Alk_Phos','SGOT','Tryglicerides','Platelets','Prothrombin','Stage']
     input_file = '0-Datasets/cirrhosis2Clear.csv'
-    df = pd.read_csv(input_file,         # Nome do arquivo com dados
-                        sep = ",",
-                        names = names,      # Nome das colunas 
-                        usecols = features, # Define as colunas que serão  utilizadas
-                        na_values='NA')
+    df = pd.read_csv(input_file, sep=",", names=names, usecols=features, na_values='NA')
 
-    df['target'] = 'Status'
-    df.head()
+    # Handle missing values, if any
+    df = df.dropna()
 
     # Separate X and y data
-    X = df.drop('target', axis=1)
-    y = df.target   
+    X = df.drop('Status', axis=1)
+    y = df['Status']   
     print("Total samples: {}".format(X.shape[0]))
 
     # Split the data - 75% train, 25% test
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=1)
     print("Total train samples: {}".format(X_train.shape[0]))
-    print("Total test  samples: {}".format(X_test.shape[0]))
+    print("Total test samples: {}".format(X_test.shape[0]))
 
     # Scale the X data using Z-score
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
         
-    # STEP 1 - TESTS USING knn classifier write from scratch    
-    # Make predictions on test dataset using knn classifier
+    # STEP 1 - TESTS USING knn classifier written from scratch    
     y_hat_test = knn_predict(X_train, X_test, y_train, y_test, k=5, p=2)
 
     # Get test accuracy score
     accuracy = accuracy_score(y_test, y_hat_test)*100
     f1 = f1_score(y_test, y_hat_test, average='macro')
-    print("Acurracy K-NN from scratch: {:.2f}%".format(accuracy))
+    print("Accuracy K-NN from scratch: {:.2f}%".format(accuracy))
     print("F1 Score K-NN from scratch: {:.2f}%".format(f1))
 
     # Get test confusion matrix
     cm = confusion_matrix(y_test, y_hat_test)        
-    plot_confusion_matrix(cm, df['target'], False, "Confusion Matrix - K-NN")      
-    plot_confusion_matrix(cm, df['target'], True, "Confusion Matrix - K-NN normalized")  
+    plot_confusion_matrix(cm, classes=['Class 0', 'Class 1'], normalize=False, title="Confusion Matrix - K-NN")      
+    plot_confusion_matrix(cm, classes=['Class 0', 'Class 1'], normalize=True, title="Confusion Matrix - K-NN normalized")  
 
     # STEP 2 - TESTS USING knn classifier from sk-learn
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X_train, y_train)
     y_hat_test = knn.predict(X_test)
 
-     # Get test accuracy score
+    # Get test accuracy score
     accuracy = accuracy_score(y_test, y_hat_test)*100
-    f1 = f1_score(y_test, y_hat_test,average='macro')
-    print("Acurracy K-NN from sk-learn: {:.2f}%".format(accuracy))
+    f1 = f1_score(y_test, y_hat_test, average='macro')
+    print("Accuracy K-NN from sk-learn: {:.2f}%".format(accuracy))
     print("F1 Score K-NN from sk-learn: {:.2f}%".format(f1))
 
-    # Get test confusion matrix        cm = confusion_matrix(y_test, y_hat_test)        
-    plot_confusion_matrix(cm, df['target'], False, "Confusion Matrix - K-NN sklearn")      
-    plot_confusion_matrix(cm, df['target'], True, "Confusion Matrix - K-NN sklearn normalized" )  
+    # Get test confusion matrix    
+    cm = confusion_matrix(y_test, y_hat_test)        
+    plot_confusion_matrix(cm, classes=['Class 0', 'Class 1'], normalize=False, title="Confusion Matrix - K-NN sklearn")      
+    plot_confusion_matrix(cm, classes=['Class 0', 'Class 1'], normalize=True, title="Confusion Matrix - K-NN sklearn normalized")  
     plt.show()
-
 
 if __name__ == "__main__":
     main()
