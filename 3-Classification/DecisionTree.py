@@ -5,6 +5,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn import tree
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import f1_score  # Importa a função f1_score
 
 def main():
     
@@ -44,6 +45,10 @@ def main():
     result = clf.score(X_test, y_test)
     print('Acuraccy:')
     print(result)
+
+    f1 = f1_score(y_test, predictions, average='weighted')
+    print('F1 Score:')
+    print(f1)
 
 
 if __name__ == "__main__":

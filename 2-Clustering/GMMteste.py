@@ -1,6 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.cluster import KMeans
+from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
@@ -24,36 +24,39 @@ for column in ['Status', 'Drug', 'Sex', 'Ascites', 'Hepatomegaly', 'Spiders', 'E
 scaler = StandardScaler()
 df_normalized = scaler.fit_transform(df)
 
-# Apply K-Means
-def apply_kmeans(data, max_clusters=10):
-    best_n_clusters = 1
+# Apply Gaussian Mixture Model (GMM)
+def apply_gmm(data, max_components=10):
+    best_n_components = 1
     best_score = -1
-    best_kmeans = None
+    best_gmm = None
     
-    for n_clusters in range(2, max_clusters + 1):
-        kmeans = KMeans(n_clusters=n_clusters, random_state=42)
-        labels = kmeans.fit_predict(data)
+    for n_components in range(1, max_components + 1):
+        gmm = GaussianMixture(n_components=n_components, random_state=42)
+        labels = gmm.fit_predict(data)
         
-        # Compute silhouette score
-        score = silhouette_score(data, labels)
-        print(f'Number of clusters: {n_clusters}, Silhouette Score: {score}')
-        
-        if score > best_score:
-            best_score = score
-            best_n_clusters = n_clusters
-            best_kmeans = kmeans
+        # Check if silhouette_score can be computed
+        if len(set(labels)) > 1:  # More than one unique label is needed
+            score = silhouette_score(data, labels)
+            print(f'Number of components: {n_components}, Silhouette Score: {score}')
+            
+            if score > best_score:
+                best_score = score
+                best_n_components = n_components
+                best_gmm = gmm
+        else:
+            print(f'Number of components: {n_components} resulted in only one cluster.')
     
-    return best_kmeans, best_n_clusters
+    return best_gmm, best_n_components
 
-# Find the best K-Means model
-best_kmeans, best_n_clusters = apply_kmeans(df_normalized, max_clusters=10)
+# Find the best GMM
+best_gmm, best_n_components = apply_gmm(df_normalized, max_components=10)
 
 # Ensure that a valid model was found
-if best_kmeans is not None:
+if best_gmm is not None:
     # Predict clusters
-    df['Cluster'] = best_kmeans.predict(df_normalized)
+    df['Cluster'] = best_gmm.predict(df_normalized)
 
-    print(f'Best number of clusters: {best_n_clusters}')
+    print(f'Best number of components: {best_n_components}')
 
     # Reduce dimensions to 2D using PCA for visualization
     pca = PCA(n_components=2)
@@ -62,10 +65,10 @@ if best_kmeans is not None:
     # Plot the results
     plt.figure(figsize=(10, 7))
     scatter = plt.scatter(df_pca[:, 0], df_pca[:, 1], c=df['Cluster'], cmap='viridis', marker='o')
-    plt.title('K-Means Clusters (PCA Projection)')
+    plt.title('GMM Clusters (PCA Projection)')
     plt.xlabel('Principal Component 1')
     plt.ylabel('Principal Component 2')
     plt.colorbar(scatter, label='Cluster')
     plt.show()
 else:
-    print('No valid K-Means model found.')
+    print('No valid GMM model found.')
