@@ -74,19 +74,19 @@ def plot_confusion_matrix(cm, classes,
     plt.xticks(tick_marks, classes, rotation=45)
     plt.yticks(tick_marks, classes)
 
-    if normalize:
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        print("Normalized confusion matrix")
-    else:
-        print('Confusion matrix, without normalization')
+    #if normalize:
+     #   cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+       # print("Normalized confusion matrix")
+    #else:
+        #print('Confusion matrix, without normalization')
 
-    print(cm)
+    #print(cm)
 
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, cm[i, j],
-                 horizontalalignment="center",
-                 color="white" if cm[i, j] > thresh else "black")
+    #thresh = cm.max() / 2.
+    #for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+     #   plt.text(j, i, cm[i, j],
+      #           horizontalalignment="center",
+       #          color="white" if cm[i, j] > thresh else "black")
 
     plt.tight_layout()
     plt.ylabel('True label')
@@ -125,7 +125,7 @@ def main():
     accuracy = accuracy_score(y_test, y_hat_test)*100
     f1 = f1_score(y_test, y_hat_test, average='macro')
     print("Accuracy K-NN from scratch: {:.2f}%".format(accuracy))
-    print("F1 Score K-NN from scratch: {:.2f}%".format(f1))
+    print("F1 Score K-NN from scratch: {:.2f}".format(f1))
 
     # Get test confusion matrix
     cm = confusion_matrix(y_test, y_hat_test)        
@@ -141,7 +141,7 @@ def main():
     accuracy = accuracy_score(y_test, y_hat_test)*100
     f1 = f1_score(y_test, y_hat_test, average='macro')
     print("Accuracy K-NN from sk-learn: {:.2f}%".format(accuracy))
-    print("F1 Score K-NN from sk-learn: {:.2f}%".format(f1))
+    print("F1 Score K-NN from sk-learn: {:.2f}".format(f1))
 
     # Get test confusion matrix    
     cm = confusion_matrix(y_test, y_hat_test)        

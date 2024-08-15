@@ -47,7 +47,7 @@ y_hat_test = svm.predict(X_test)
 accuracy = accuracy_score(y_test, y_hat_test) * 100
 f1 = f1_score(y_test, y_hat_test, average='macro')
 print("Acurracy SVM from sk-learn: {:.2f}%".format(accuracy))
-print("F1 Score SVM from sk-learn: {:.2f}%".format(f1))
+print("F1 Score SVM from sk-learn: {:.2f}".format(f1))
 
 # Obter a matriz de confusão
 cm = confusion_matrix(y_test, y_hat_test)

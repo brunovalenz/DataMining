@@ -24,6 +24,6 @@ df_normalized['cluster'] = gmm.fit_predict(df_normalized)
 
 # Visualizar os resultados com Seaborn
 plt.figure(figsize=(10, 6))
-sns.scatterplot(x='Age', y='Bilirubin', hue='cluster', palette='viridis', data=df_normalized, s=100)
+sns.scatterplot(x='Status', y='Bilirubin', hue='cluster', palette='viridis', data=df_normalized, s=100)
 plt.title('GMM Clustering')
 plt.show()

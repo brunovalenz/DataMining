@@ -52,7 +52,7 @@ model = Sequential([
 ])
 
 # Compilar o modelo
-model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+model.compile(optimizer='sgd', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Treinar o modelo
 history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.2)
